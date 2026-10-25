@@ -1,0 +1,256 @@
+/* Vega – a light touch on top of Obsidian's default theme.
+   It keeps the default look and only refines a few things: a toned app frame,
+   bold folders, an accented note title and tags, heading rules and clearer tables.
+
+   Options are available through the Style Settings plugin. All toggles are
+   phrased as "Disable …", so without the plugin every feature is on. */
+
+/* @settings
+
+name: Vega
+id: vega
+settings:
+    -
+        id: vega-fonts
+        title: Fonts
+        type: heading
+        level: 2
+    -
+        id: font-text-theme
+        title: Text font
+        description: Comma-separated list of fonts; the first one installed is used
+        type: variable-text
+        default: Inter, Verdana
+    -
+        id: font-interface-theme
+        title: Interface font
+        description: Comma-separated list of fonts; the first one installed is used
+        type: variable-text
+        default: Inter, Verdana
+    -
+        id: vega-frame
+        title: App frame
+        type: heading
+        level: 2
+    -
+        id: vega-no-frame
+        title: Disable toned frame
+        description: Keep sidebars, tab bar and ribbon in their default colors
+        type: class-toggle
+    -
+        id: vega-frame-light
+        title: Frame darkening – light mode
+        description: How much darker than the note the frame is, in percent
+        type: variable-number-slider
+        default: 10
+        min: 0
+        max: 30
+        step: 1
+        format: '%'
+    -
+        id: vega-frame-dark
+        title: Frame lightening – dark mode
+        description: How much lighter than the note the frame is, in percent
+        type: variable-number-slider
+        default: 10
+        min: 0
+        max: 30
+        step: 1
+        format: '%'
+    -
+        id: vega-explorer
+        title: File explorer
+        type: heading
+        level: 2
+    -
+        id: vega-no-bold-folders
+        title: Disable bold folders
+        type: class-toggle
+    -
+        id: vega-no-active-file
+        title: Disable highlighted active note
+        type: class-toggle
+    -
+        id: vega-note
+        title: Note
+        type: heading
+        level: 2
+    -
+        id: vega-no-accent-title
+        title: Disable accent-colored note title
+        type: class-toggle
+    -
+        id: vega-no-tags
+        title: Disable stronger tag background
+        type: class-toggle
+    -
+        id: vega-no-heading-rules
+        title: Disable rules under H1 and H2
+        type: class-toggle
+    -
+        id: vega-no-tables
+        title: Disable table styling
+        description: Borders, bold gray header row and bold totals (Markdown tables and Bases)
+        type: class-toggle
+
+*/
+
+/* =========================================================
+   Fonts
+   ========================================================= */
+
+/* Inter, falling back to Verdana; Obsidian appends its default font after these.
+   A font chosen in Settings → Appearance takes precedence over the theme. */
+body {
+  --font-text-theme: "Inter", "Verdana";
+  --font-interface-theme: "Inter", "Verdana";
+}
+
+/* =========================================================
+   App frame
+   ========================================================= */
+
+/* light mode darkens the frame (mixes in black), dark mode lightens it (mixes in white) */
+.theme-light {
+  --vega-frame-amount: var(--vega-frame-light, 10%);
+  --vega-mix: #000;
+}
+
+.theme-dark {
+  --vega-frame-amount: var(--vega-frame-dark, 10%);
+  --vega-mix: #fff;
+}
+
+body:not(.vega-no-frame) {
+  --vega-frame-bg: color-mix(in oklch, var(--background-primary), var(--vega-mix) var(--vega-frame-amount));
+  --vega-frame-bg-alt: color-mix(in oklch, var(--background-primary), var(--vega-mix) calc(var(--vega-frame-amount) + 4%));
+  --vega-frame-line: color-mix(in oklch, var(--background-primary), var(--vega-mix) calc(var(--vega-frame-amount) + 10%));
+
+  /* sidebars (file explorer, outline, …) */
+  --background-secondary: var(--vega-frame-bg);
+  --background-secondary-alt: var(--vega-frame-bg-alt);
+
+  /* tab bar */
+  --tab-container-background: var(--vega-frame-bg);
+
+  /* ribbon */
+  --ribbon-background: var(--vega-frame-bg);
+  --ribbon-background-collapsed: var(--vega-frame-bg);
+
+  /* title bar (only with Settings → Appearance → Window frame style → Obsidian frame) */
+  --titlebar-background: var(--vega-frame-bg);
+  --titlebar-background-focused: var(--vega-frame-bg);
+
+  /* dividers – stronger than the frame background */
+  --divider-color: var(--vega-frame-line);
+  --tab-outline-color: var(--vega-frame-line);
+  --titlebar-border-color: var(--vega-frame-line);
+}
+
+/* =========================================================
+   File explorer
+   ========================================================= */
+
+/* folders bold, notes regular */
+body:not(.vega-no-bold-folders) .nav-folder-title,
+body:not(.vega-no-bold-folders) .nav-folder-title-content {
+  font-weight: var(--font-bold);
+  color: var(--text-normal);
+}
+
+body:not(.vega-no-bold-folders) .nav-file-title,
+body:not(.vega-no-bold-folders) .nav-file-title-content {
+  font-weight: var(--font-normal);
+}
+
+/* active note in the accent color */
+body:not(.vega-no-active-file) .nav-file-title.tree-item-self.is-active {
+  background-color: color-mix(in oklch, var(--interactive-accent) 18%, transparent);
+  color: var(--text-accent);
+  font-weight: var(--font-semibold);
+}
+
+/* =========================================================
+   Note
+   ========================================================= */
+
+/* note title (inline title) in the accent color and slightly larger */
+body:not(.vega-no-accent-title) {
+  --inline-title-color: var(--text-accent);
+  --inline-title-size: calc(var(--h1-size) * 1.15);
+}
+
+/* tags with a stronger accent background, also without hover */
+body:not(.vega-no-tags) {
+  --tag-background: color-mix(in oklch, var(--interactive-accent) 25%, transparent);
+  --tag-background-hover: color-mix(in oklch, var(--interactive-accent) 35%, transparent);
+}
+
+/* rule under H1 and H2 – Reading view and Live Preview (lines with HyperMD-header-N classes) */
+body:not(.vega-no-heading-rules) .markdown-rendered h1,
+body:not(.vega-no-heading-rules) .markdown-rendered h2,
+body:not(.vega-no-heading-rules) .markdown-source-view.mod-cm6 .cm-line[class~="HyperMD-header-1"],
+body:not(.vega-no-heading-rules) .markdown-source-view.mod-cm6 .cm-line[class~="HyperMD-header-2"] {
+  border-bottom: 1px solid var(--text-faint);
+  padding-bottom: 0.2em;
+}
+
+/* =========================================================
+   Tables (Markdown and Bases)
+   ========================================================= */
+
+body:not(.vega-no-tables) {
+  --vega-table-header: color-mix(in oklch, var(--background-primary), var(--vega-mix) 11%);
+  --vega-table-header-hover: color-mix(in oklch, var(--background-primary), var(--vega-mix) 15%);
+
+  /* Markdown tables */
+  --table-border-color: var(--text-faint);
+  --table-header-border-color: var(--text-faint);
+  --table-header-weight: var(--font-bold);
+  --table-header-color: var(--text-normal);
+  --table-header-background: var(--vega-table-header);
+  --table-header-background-hover: var(--vega-table-header-hover);
+
+  /* Bases tables have their own variables */
+  --bases-table-border-color: var(--text-faint);
+  --bases-table-header-background: var(--vega-table-header);
+  --bases-table-header-background-hover: var(--vega-table-header-hover);
+}
+
+/* Bases – bold column names (the background is set on the whole row so it does not cover the cell borders) */
+body:not(.vega-no-tables) .bases-table-header-name,
+body:not(.vega-no-tables) .bases-table-header-label {
+  font-weight: var(--font-bold);
+  color: var(--text-normal);
+}
+
+/* variables set directly on embedded bases – Obsidian's defaults are defined deeper in the tree */
+body:not(.vega-no-tables) .bases-embed,
+body:not(.vega-no-tables) .block-language-base,
+body:not(.vega-no-tables) .bases-view {
+  --bases-embed-border-color: var(--text-faint);
+  --bases-table-border-color: var(--text-faint);
+  --bases-table-header-background: var(--vega-table-header);
+  --bases-table-header-background-hover: var(--vega-table-header-hover);
+}
+
+/* gray header across the full row width */
+body:not(.vega-no-tables) .bases-table-container .bases-thead {
+  background-color: var(--vega-table-header);
+}
+
+/* vertical borders in the totals row too */
+body:not(.vega-no-tables) .bases-view .bases-table-footer .bases-td {
+  box-shadow: calc(var(--bases-table-column-border-width) * -1) 0 0 var(--table-border-color);
+}
+
+/* bold totals, regular summary function label */
+body:not(.vega-no-tables) .bases-view .bases-table-footer .summary-content {
+  font-weight: var(--font-bold);
+  color: var(--text-normal);
+}
+
+body:not(.vega-no-tables) .bases-view .bases-table-footer .summary-function-name {
+  font-weight: var(--font-normal);
+  color: var(--text-muted);
+}

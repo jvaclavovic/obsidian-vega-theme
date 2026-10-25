@@ -71,6 +71,16 @@ settings:
         title: Disable highlighted active note
         type: class-toggle
     -
+        id: vega-file-icons
+        title: File icons
+        description: Show an icon in front of every file in the file explorer (Lucide icons). Off by default.
+        type: class-toggle
+    -
+        id: vega-file-icons-muted
+        title: Muted file icons
+        description: Gray file icons instead of the accent color
+        type: class-toggle
+    -
         id: vega-dimmed
         title: Dimmed folders
         description: Gray out selected folders and everything inside them – at any level of the tree. Off by default.
@@ -231,6 +241,51 @@ body:not(.vega-no-active-file) .nav-file-title.tree-item-self.is-active {
   background-color: color-mix(in oklch, var(--interactive-accent) 18%, transparent);
   color: var(--text-accent);
   font-weight: var(--font-semibold);
+}
+
+/* file icons – off by default; icons from Lucide (lucide.dev, ISC license) */
+body.vega-file-icons {
+  --vega-icon-file-text: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z'/%3E%3Cpath d='M14 2v5a1 1 0 0 0 1 1h5'/%3E%3Cpath d='M10 9H8'/%3E%3Cpath d='M16 13H8'/%3E%3Cpath d='M16 17H8'/%3E%3C/svg%3E");
+  --vega-icon-table: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v18'/%3E%3Crect width='18' height='18' x='3' y='3' rx='2'/%3E%3Cpath d='M3 9h18'/%3E%3Cpath d='M3 15h18'/%3E%3C/svg%3E");
+  --vega-icon-layout-dashboard: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='7' height='9' x='3' y='3' rx='1'/%3E%3Crect width='7' height='5' x='14' y='3' rx='1'/%3E%3Crect width='7' height='9' x='14' y='12' rx='1'/%3E%3Crect width='7' height='5' x='3' y='16' rx='1'/%3E%3C/svg%3E");
+  --vega-icon-file-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z'/%3E%3Cpath d='M14 2v5a1 1 0 0 0 1 1h5'/%3E%3Ccircle cx='10' cy='12' r='2'/%3E%3Cpath d='m20 17-1.296-1.296a2.41 2.41 0 0 0-3.408 0L9 22'/%3E%3C/svg%3E");
+  --vega-icon-file: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z'/%3E%3Cpath d='M14 2v5a1 1 0 0 0 1 1h5'/%3E%3C/svg%3E");
+  --vega-file-icon-color: var(--text-accent);
+}
+
+body.vega-file-icons.vega-file-icons-muted {
+  --vega-file-icon-color: var(--text-muted);
+}
+
+body.vega-file-icons .nav-file-title-content::before {
+  content: "";
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  margin-inline-end: 0.4em;
+  vertical-align: -0.15em;
+  background-color: var(--vega-file-icon-color);
+  mask-image: var(--vega-file-icon, var(--vega-icon-file));
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+}
+
+body.vega-file-icons .nav-file-title[data-path$=".md"] {
+  --vega-file-icon: var(--vega-icon-file-text);
+}
+
+body.vega-file-icons .nav-file-title[data-path$=".base"] {
+  --vega-file-icon: var(--vega-icon-table);
+}
+
+body.vega-file-icons .nav-file-title[data-path$=".canvas"] {
+  --vega-file-icon: var(--vega-icon-layout-dashboard);
+}
+
+body.vega-file-icons .nav-file-title:is([data-path$=".png"], [data-path$=".jpg"], [data-path$=".jpeg"], [data-path$=".gif"], [data-path$=".svg"], [data-path$=".webp"]) {
+  --vega-file-icon: var(--vega-icon-file-image);
 }
 
 /* dimmed folders – off by default, each folder name has its own toggle in Style Settings;

@@ -34,7 +34,8 @@ Font size is an Obsidian setting (**Settings → Appearance → Font size**), no
 
 ### From the theme gallery
 
-Not published yet.
+1. Open **Settings → Appearance → Themes → Manage**.
+2. Search for **Vega**, then select **Install and use**.
 
 ### Manually
 

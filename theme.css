@@ -71,6 +71,44 @@ settings:
         title: Disable highlighted active note
         type: class-toggle
     -
+        id: vega-dimmed
+        title: Dimmed folders
+        description: Gray out selected folders and everything inside them – at any level of the tree. Off by default.
+        type: heading
+        level: 3
+    -
+        id: vega-dim-archive
+        title: Dim "Archive"
+        type: class-toggle
+    -
+        id: vega-dim-attachments
+        title: Dim "Attachments"
+        type: class-toggle
+    -
+        id: vega-dim-backup
+        title: Dim "Backup"
+        type: class-toggle
+    -
+        id: vega-dim-templates
+        title: Dim "Templates"
+        type: class-toggle
+    -
+        id: vega-dim-temporary
+        title: Dim "Temporary"
+        type: class-toggle
+    -
+        id: vega-dim-views
+        title: Dim "Views"
+        type: class-toggle
+    -
+        id: vega-dim-opacity
+        title: Dimmed folder opacity
+        type: variable-number-slider
+        default: 0.45
+        min: 0.1
+        max: 0.9
+        step: 0.05
+    -
         id: vega-note
         title: Note
         type: heading
@@ -87,6 +125,31 @@ settings:
         id: vega-no-heading-rules
         title: Disable rules under H1 and H2
         type: class-toggle
+    -
+        id: vega-no-highlights
+        title: Disable colored highlights
+        description: Highlights with a light tinted background and bold dark text in the same color, like Apple Notes
+        type: class-toggle
+    -
+        id: vega-hl-light
+        title: Highlight text darkening – light mode
+        description: How much darker than the highlight color the text is, in percent
+        type: variable-number-slider
+        default: 20
+        min: 0
+        max: 60
+        step: 1
+        format: '%'
+    -
+        id: vega-hl-dark
+        title: Highlight text lightening – dark mode
+        description: How much lighter than the highlight color the text is, in percent
+        type: variable-number-slider
+        default: 40
+        min: 0
+        max: 60
+        step: 1
+        format: '%'
     -
         id: vega-no-tables
         title: Disable table styling
@@ -170,6 +233,23 @@ body:not(.vega-no-active-file) .nav-file-title.tree-item-self.is-active {
   font-weight: var(--font-semibold);
 }
 
+/* dimmed folders – off by default, each folder name has its own toggle in Style Settings;
+   matches the folder at any level of the tree */
+body.vega-dim-archive .nav-folder-title:is([data-path="Archive"], [data-path$="/Archive"]),
+body.vega-dim-archive .nav-folder-title:is([data-path="Archive"], [data-path$="/Archive"]) + .nav-folder-children,
+body.vega-dim-attachments .nav-folder-title:is([data-path="Attachments"], [data-path$="/Attachments"]),
+body.vega-dim-attachments .nav-folder-title:is([data-path="Attachments"], [data-path$="/Attachments"]) + .nav-folder-children,
+body.vega-dim-backup .nav-folder-title:is([data-path="Backup"], [data-path$="/Backup"]),
+body.vega-dim-backup .nav-folder-title:is([data-path="Backup"], [data-path$="/Backup"]) + .nav-folder-children,
+body.vega-dim-templates .nav-folder-title:is([data-path="Templates"], [data-path$="/Templates"]),
+body.vega-dim-templates .nav-folder-title:is([data-path="Templates"], [data-path$="/Templates"]) + .nav-folder-children,
+body.vega-dim-temporary .nav-folder-title:is([data-path="Temporary"], [data-path$="/Temporary"]),
+body.vega-dim-temporary .nav-folder-title:is([data-path="Temporary"], [data-path$="/Temporary"]) + .nav-folder-children,
+body.vega-dim-views .nav-folder-title:is([data-path="Views"], [data-path$="/Views"]),
+body.vega-dim-views .nav-folder-title:is([data-path="Views"], [data-path$="/Views"]) + .nav-folder-children {
+  opacity: var(--vega-dim-opacity, 0.45);
+}
+
 /* =========================================================
    Note
    ========================================================= */
@@ -193,6 +273,68 @@ body:not(.vega-no-heading-rules) .markdown-source-view.mod-cm6 .cm-line[class~="
 body:not(.vega-no-heading-rules) .markdown-source-view.mod-cm6 .cm-line[class~="HyperMD-header-2"] {
   border-bottom: 1px solid var(--text-faint);
   padding-bottom: 0.2em;
+}
+
+/* =========================================================
+   Highlights (==text==) – Apple Notes style
+   ========================================================= */
+
+/* light tinted background, bold text in a darker shade of the same color;
+   default highlight is yellow, colored highlights use their own color */
+.theme-light {
+  --vega-hl-bg-amount: 22%;
+  --vega-hl-text-mix: #000;
+  --vega-hl-text-amount: var(--vega-hl-light, 20%);
+}
+
+.theme-dark {
+  --vega-hl-bg-amount: 30%;
+  --vega-hl-text-mix: #fff;
+  --vega-hl-text-amount: var(--vega-hl-dark, 40%);
+}
+
+body:not(.vega-no-highlights) .markdown-rendered mark,
+body:not(.vega-no-highlights) .cm-s-obsidian span.cm-highlight {
+  --vega-hl-base: var(--color-yellow);
+
+  background-color: color-mix(in oklch, var(--vega-hl-base) var(--vega-hl-bg-amount), transparent);
+  color: color-mix(in oklch, var(--vega-hl-base), var(--vega-hl-text-mix) var(--vega-hl-text-amount));
+  font-weight: var(--font-bold);
+}
+
+body:not(.vega-no-highlights) .markdown-rendered mark {
+  border-radius: var(--radius-s);
+  padding: 0 0.15em;
+}
+
+body:not(.vega-no-highlights) .markdown-rendered mark[data-highlight="red"],
+body:not(.vega-no-highlights) .cm-s-obsidian span.cm-highlight-red {
+  --vega-hl-base: var(--color-red);
+}
+
+body:not(.vega-no-highlights) .markdown-rendered mark[data-highlight="orange"],
+body:not(.vega-no-highlights) .cm-s-obsidian span.cm-highlight-orange {
+  --vega-hl-base: var(--color-orange);
+}
+
+body:not(.vega-no-highlights) .markdown-rendered mark[data-highlight="yellow"],
+body:not(.vega-no-highlights) .cm-s-obsidian span.cm-highlight-yellow {
+  --vega-hl-base: var(--color-yellow);
+}
+
+body:not(.vega-no-highlights) .markdown-rendered mark[data-highlight="green"],
+body:not(.vega-no-highlights) .cm-s-obsidian span.cm-highlight-green {
+  --vega-hl-base: var(--color-green);
+}
+
+body:not(.vega-no-highlights) .markdown-rendered mark[data-highlight="blue"],
+body:not(.vega-no-highlights) .cm-s-obsidian span.cm-highlight-blue {
+  --vega-hl-base: var(--color-blue);
+}
+
+body:not(.vega-no-highlights) .markdown-rendered mark[data-highlight="purple"],
+body:not(.vega-no-highlights) .cm-s-obsidian span.cm-highlight-purple {
+  --vega-hl-base: var(--color-purple);
 }
 
 /* =========================================================

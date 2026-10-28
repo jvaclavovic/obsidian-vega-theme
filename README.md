@@ -28,6 +28,8 @@ With the [Style Settings](https://github.com/obsidian-community/obsidian-style-s
 
 Without Style Settings every feature is on, except file icons and dimmed folders, which are off.
 
+**Translucent window:** with **Settings → Appearance → Translucent window** turned on, Obsidian makes the left side of the window transparent (ribbon, left sidebar, tab bar, title bar) and overrides the theme there, so the toned frame only shows on the right sidebar. Turn translucency off to get the toned frame on both sides.
+
 Font size is an Obsidian setting (**Settings → Appearance → Font size**), not part of the theme. A font chosen in **Settings → Appearance** takes precedence over the theme's fonts.
 
 ## Installation

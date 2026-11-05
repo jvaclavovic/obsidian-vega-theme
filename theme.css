@@ -83,7 +83,7 @@ settings:
     -
         id: vega-dimmed
         title: Dimmed folders
-        description: Gray out selected folders and everything inside them – at any level of the tree. Off by default.
+        description: Gray out selected folders and everything inside them – at any level of the tree, regardless of letter case (Attachments = attachments). Off by default.
         type: heading
         level: 3
     -
@@ -97,6 +97,10 @@ settings:
     -
         id: vega-dim-backup
         title: Dim "Backup"
+        type: class-toggle
+    -
+        id: vega-dim-copilot
+        title: Dim "Copilot"
         type: class-toggle
     -
         id: vega-dim-templates
@@ -289,19 +293,21 @@ body.vega-file-icons .nav-file-title:is([data-path$=".png"], [data-path$=".jpg"]
 }
 
 /* dimmed folders – off by default, each folder name has its own toggle in Style Settings;
-   matches the folder at any level of the tree */
-body.vega-dim-archive .nav-folder-title:is([data-path="Archive"], [data-path$="/Archive"]),
-body.vega-dim-archive .nav-folder-title:is([data-path="Archive"], [data-path$="/Archive"]) + .nav-folder-children,
-body.vega-dim-attachments .nav-folder-title:is([data-path="Attachments"], [data-path$="/Attachments"]),
-body.vega-dim-attachments .nav-folder-title:is([data-path="Attachments"], [data-path$="/Attachments"]) + .nav-folder-children,
-body.vega-dim-backup .nav-folder-title:is([data-path="Backup"], [data-path$="/Backup"]),
-body.vega-dim-backup .nav-folder-title:is([data-path="Backup"], [data-path$="/Backup"]) + .nav-folder-children,
-body.vega-dim-templates .nav-folder-title:is([data-path="Templates"], [data-path$="/Templates"]),
-body.vega-dim-templates .nav-folder-title:is([data-path="Templates"], [data-path$="/Templates"]) + .nav-folder-children,
-body.vega-dim-temporary .nav-folder-title:is([data-path="Temporary"], [data-path$="/Temporary"]),
-body.vega-dim-temporary .nav-folder-title:is([data-path="Temporary"], [data-path$="/Temporary"]) + .nav-folder-children,
-body.vega-dim-views .nav-folder-title:is([data-path="Views"], [data-path$="/Views"]),
-body.vega-dim-views .nav-folder-title:is([data-path="Views"], [data-path$="/Views"]) + .nav-folder-children {
+   matches the folder at any level of the tree, case-insensitively (attachments = Attachments) */
+body.vega-dim-archive .nav-folder-title:is([data-path="Archive" i], [data-path$="/Archive" i]),
+body.vega-dim-archive .nav-folder-title:is([data-path="Archive" i], [data-path$="/Archive" i]) + .nav-folder-children,
+body.vega-dim-attachments .nav-folder-title:is([data-path="Attachments" i], [data-path$="/Attachments" i]),
+body.vega-dim-attachments .nav-folder-title:is([data-path="Attachments" i], [data-path$="/Attachments" i]) + .nav-folder-children,
+body.vega-dim-backup .nav-folder-title:is([data-path="Backup" i], [data-path$="/Backup" i]),
+body.vega-dim-backup .nav-folder-title:is([data-path="Backup" i], [data-path$="/Backup" i]) + .nav-folder-children,
+body.vega-dim-copilot .nav-folder-title:is([data-path="Copilot" i], [data-path$="/Copilot" i]),
+body.vega-dim-copilot .nav-folder-title:is([data-path="Copilot" i], [data-path$="/Copilot" i]) + .nav-folder-children,
+body.vega-dim-templates .nav-folder-title:is([data-path="Templates" i], [data-path$="/Templates" i]),
+body.vega-dim-templates .nav-folder-title:is([data-path="Templates" i], [data-path$="/Templates" i]) + .nav-folder-children,
+body.vega-dim-temporary .nav-folder-title:is([data-path="Temporary" i], [data-path$="/Temporary" i]),
+body.vega-dim-temporary .nav-folder-title:is([data-path="Temporary" i], [data-path$="/Temporary" i]) + .nav-folder-children,
+body.vega-dim-views .nav-folder-title:is([data-path="Views" i], [data-path$="/Views" i]),
+body.vega-dim-views .nav-folder-title:is([data-path="Views" i], [data-path$="/Views" i]) + .nav-folder-children {
   opacity: var(--vega-dim-opacity, 0.45);
 }
 

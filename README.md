@@ -7,6 +7,7 @@ A light touch on top of Obsidian's default theme. Vega keeps the familiar defaul
 - **Note** – the note title in the accent color and slightly larger, tags with a stronger accent background, a thin rule under H1 and H2.
 - **Highlights** – `==highlighted text==` in the style of Apple Notes: a light tinted background with bold text in a darker shade of the same color (lighter in dark mode). Works for the default highlight and for colored highlights.
 - **Tables** – visible borders, a bold gray header row and, in Bases, bold totals and borders in the totals row.
+- **Tasks plugin icons** – colored Lucide-based icons instead of the emoji the [Tasks](https://github.com/obsidian-tasks-group/obsidian-tasks) plugin uses for priority, dates, recurrence and done (green, lighter in dark mode).
 - **Fonts** – Inter, falling back to Verdana.
 
 Works in light and dark mode.

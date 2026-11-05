@@ -169,6 +169,16 @@ settings:
         title: Disable table styling
         description: Borders, bold gray header row and bold totals (Markdown tables and Bases)
         type: class-toggle
+    -
+        id: vega-tasks
+        title: Tasks plugin
+        type: heading
+        level: 2
+    -
+        id: vega-no-task-icons
+        title: Disable Tasks icons
+        description: Colored icons instead of the emoji used by the Tasks plugin (priority, dates, recurrence, done)
+        type: class-toggle
 
 */
 
@@ -456,4 +466,74 @@ body:not(.vega-no-tables) .bases-view .bases-table-footer .summary-content {
 body:not(.vega-no-tables) .bases-view .bases-table-footer .summary-function-name {
   font-weight: var(--font-normal);
   color: var(--text-muted);
+}
+
+/* =========================================================
+   Tasks plugin icons
+   ========================================================= */
+
+/* colored icons for the Tasks plugin emoji (priority, dates, recurrence, done);
+   built from Lucide 1.68.0 source icons (lucide.dev, ISC) with obsidian-tasks-custom-icons:
+   uniform 3.2 px stroke on a 24 px grid, larger priority arrows (highest/lowest = triple
+   arrows), postponed = larger square with an arrow. The color is in the font itself
+   (COLR/CPAL): palette 0 (#15803d) for light mode, palette 1 (#4ade80) for dark mode. */
+
+/*!
+Included icons were modified from https://lucide.dev
+License reproduced from https://lucide.dev/license
+
+ISC License
+Copyright (c) for portions of Lucide are held by Cole Bemis 2013-2022 as part of Feather (MIT). All other copyright (c) for Lucide are held by Lucide Contributors 2022.
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*/
+
+/*! Generator: obsidian-tasks-custom-icons v1.0.6 https://github.com/obsidian-tasks-group/obsidian-tasks-custom-icons */
+@font-face {
+  font-family: VegaTaskIcons;
+  src: url('data:@file/octet-stream;base64,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') format('woff2');
+  unicode-range: U+23E9, U+23EB, U+23EC, U+23F0, U+23F3, U+26D4, U+2705, U+274C, U+2795, U+1F194, U+1F3C1, U+1F4C5, U+1F4CD, U+1F4DD, U+1F501, U+1F517, U+1F53A, U+1F53C, U+1F53D, U+1F6EB;
+
+  /* U+23E9:⏩, U+23EB:⏫, U+23EC:⏬, U+23F0:⏰, U+23F3:⏳, U+26D4:⛔, U+2705:✅, U+274C:❌, U+2795:➕, U+1F194:🆔, U+1F3C1:🏁, U+1F4C5:📅, U+1F4CD:📍, U+1F4DD:📝, U+1F501:🔁, U+1F517:🔗, U+1F53A:🔺, U+1F53C:🔼, U+1F53D:🔽, U+1F6EB:🛫 */
+}
+
+@supports (-webkit-touch-callout: none) {
+  /* Target Safari iOS */
+  @font-face {
+    font-family: VegaTaskIcons;
+    src: url('data:@file/octet-stream;base64,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') format('woff2');
+
+    /*
+      The following is a specific fix for Obsidian iOS.
+      For reasons unknown, a single hardcoded wide range is required to make all of the icons replace correctly.
+    */
+    unicode-range: U+02000-1F9FF;
+  }
+}
+
+body:not(.vega-no-task-icons) span.tasks-list-text,
+body:not(.vega-no-task-icons) .cm-line:has(.task-list-label) [class^="cm-list-"],
+body:not(.vega-no-task-icons) span.task-extras,
+body:not(.vega-no-task-icons) .tasks-postpone,
+body:not(.vega-no-task-icons) .tasks-backlink,
+body:not(.vega-no-task-icons) .tasks-edit::after,
+body:not(.vega-no-task-icons) .tasks-modal-priority-section,
+body:not(.vega-no-task-icons) .tasks-modal-parsed-date,
+body:not(.vega-no-task-icons) .suggestion-container .suggestion {
+  font-family: VegaTaskIcons, var(--font-text);
+}
+
+body:not(.vega-no-task-icons) span.task-extras {
+  display: inline-flex;
+  align-items: flex-start;
+  margin-left: 0.33em;
+}
+
+@font-palette-values --vega-tasks-dark {
+  font-family: VegaTaskIcons;
+  base-palette: 1;
+}
+
+body.theme-dark:not(.vega-no-task-icons) {
+  font-palette: --vega-tasks-dark;
 }
